@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>tidej</title>
+  <meta charset="utf-8">
+</head>
+<body>
+<script type="module">
+import { create, prepare } from './h.js'
+const addIndex = (el, index) => ({ index: Number(index), ...el })
+const base = [
+  { name: 'Pain',
+    note: 'Preferer le pain bio et au levain, blanc ou demis-complet et fabriquer avec au maximum 2 farines. Pas de pain complexes (multi-cereales, fruits, etc). Un pain bien lever sera plus digeste'
+  },
+  { name: 'Tartines cracquantes',
+    note: 'Eviter celle qui contiennent 3 cereales ou plus'
+  },
+  { name: 'Galettes de riz' },
+  { name: 'Galettes de mais' },
+  { name: 'Biscottes',
+    note: 'Eviter celle qui contiennent 3 cereales ou plus'
+  },
+  { name: 'Bananes',
+    note: '1 a 3 selon appetit et taille du fruit, a consomer crue ou cuites'
+  },
+  { name: 'Cereales instantane',
+    note: 'Trouvable au rayon bebe des magasin bio ou grandes surfaces, sale ou sucre. 1 ou 2 cereales max'
+  },
+  { name: 'Flocons d\'avoine ou autre cereales',
+    note: 'Faire cuire au moins 10 minutes et pas de melanges de cereales'
+  },
+  { name: 'Biscuits sec',
+    note: 'Pas trop regulierement et de composition la plus simple possible (type petit beurres)'
+  },
+  { name: 'Viennoiseries',
+    note: 'De maniere occasionelle, preferablement: brioches, croissant et pain au chocolat car plus simple de composition et donc plus digeste'
+  }
+].map(addIndex)
+
+const complement = [
+  { name: 'Oeuf',
+    type: [ 'protein' ],
+    note: 'Important de le prendre Bio pour eviter la presence d\'hormones, anti-biotiques, pesticides, etc. Possible de completer avec du beurre (ou huile) si on en prend peu'
+  },
+  { name: 'Beurre',
+    type: [ 'fat' ],
+    note: 'Important de le prendre Bio car les pesticides et medicament donnes aux animaux ce concentre dans les matieres grasses du lait'
+  },
+  { name: 'Huiles',
+    type: [ 'fat' ],
+    note: 'Imperativement bio et de premiere pression a froid, une a 2 cuielleres a soupe. A noter que l\'huile de coco ce tartine comme du beurre'
+  },
+  { name: 'Oleagineux',
+    type: [ 'fat', 'protein' ],
+    note: 'Il est grandement preferable de les faire tremper amandes et noisettes une 10aine d\'heures dans de l\'eau a temperature ambiante et d\'en oter la peau'
+  },
+  { name: 'Puree d\'Oleagineux',
+    type: [ 'fat', 'protein' ],
+    note: 'Avec moderation car tres riche et un peu lourd a digerer (15 a 30gr)'
+  },
+  { name: 'Avocats', type: [ 'fat' ] },
+  { name: 'Viande',
+    type: [ 'fat', 'protein' ],
+    note: 'Si il s\'agit de charcuterie veiller a ce qu\'elles ne contiennent pas d\'aditifs (notament nitrites). Preferablement bio ou eviter la viande industrielle'
+  },
+  { name: 'Poisson',
+    type: [ 'fat', 'protein' ],
+    note: 'De peche ou eventuellement elevage bio. Eviter les conserves'
+  },
+].map(addIndex)
+
+const drinks = [
+  { name: 'Eau',
+    note: 'Chaude ou a temperature ambiante, eviter l\'eau glacee'
+  },
+  { name: 'Cafe' },
+  { name: 'The' },
+  { name: 'Infusions' },
+  { name: 'Malt' },
+  { name: 'Chicore',
+    note: 'A l\'eau ou lait vegetal, sucre ou non'
+  },
+  { name: 'Succedane de cafe' },
+  { name: 'Caroube',
+    note: 'A l\'eau ou lait vegetal, sucre ou non'
+  },
+  { name: 'Eau de coco' },
+  { name: 'Cacao legers',
+    note: 'De composition simple (sucre et cacao) preparer avec un lait vegetal. Si vous tennez a vous faire un cacao plus riche, reduire et simplifier la portion de glucide et l\'accompagnement'
+  },
+].map(addIndex)
+
+const misc = [
+  'Pour les boissons avec du lait, ne pas utiliser de lait animal ou de soja car indigeste et nuisible a la sante',
+  'Il est benefique de rajouter quelques epices et aromates (canelles, gingembre, caradamone, herbe aromatiques, etc...)',
+  'Eviter les fruits, surtout cru, qu\'ils soient entiers ou en jus, sauf melon ou pasteque en saison, seul ou avec un peu d\'oleagineux',
+  'Ne pas prendre de miel, ou le prendre seul ou avec une boissons (sauf celles au lait). Idem pour les fruits sec (dates, figues, abricots et pruneau) et eviter de les melanger',
+  'Preferer les cereales bio, pour eviter la presence de pesticides et d\'engrais',
+  'Les cereales sont plus digestes blanches ou demis-complettes et sale plutot que sucre',
+]
+
+const data = {
+  base,
+  complement,
+  drinks,
+  names: {
+    base: 'Glucides',
+    complement: 'Accompagnement',
+    drinks: 'Boisson'
+  }
+}
+
+
+const url = [...location.hash.slice(1)]
+  .map(n => parseInt(n, 36))
+const state = {
+  base: url[0],
+  complement: url[1],
+  drinks: url[2],
+}
+
+
+const Part = prepare(`
+  font-family: sans-serif;
+  cursor: pointer;
+  user-select: none; /* find proper syntax */
+  font-size: 3em;
+`, {
+  onclick: ({ target: { step, part } }) => {
+    state[step] = part
+    render()
+  }
+})
+
+const main = create(`
+  padding: 3em;
+`)
+
+const Counter = prepare(`
+  font-family: monospace;
+`)
+
+const steps = Object.entries(Object.keys(state))
+const render = () => {
+  for (const [ index, step ] of steps) {
+    if (!state[step]) return main.replace([
+      Counter(`${Number(index) + 1} / ${steps.length}`),
+      data[step].map(part => Part({ part, step }, part.name)),
+    ])
+  }
+  console.log(state)
+  main.replace([
+    create('ol', [
+      steps.map(([ , step ]) => create(`li
+        font-size: 1.7em;
+      `, [
+        create('b', `${data.names[step]}: `),
+        create('span', ` ${state[step].name}`),
+        create('br'),
+        create(`i
+          color: grey;
+          font-size: 0.8em;
+        `, state[step].note),
+      ]))
+    ]),
+    create('p', create(`
+        white-space: pre-wrap;
+      `, misc
+          .map(note => `- ${note}`)
+          .join('\n'))),
+    create(`
+      width: 100%;
+      text-align: center;
+    `, [
+      create(`textarea
+        width: calc(100% - 2em);
+        padding: 1em;
+        font-size: 2em;
+      `, {
+        value: `https://mandragore-blog.github.io/tidej#${
+          steps.map(([ , step]) => state[step].index.toString(36)).join('')
+        }`
+      }),
+      create('button', {
+        onclick: () => {
+          steps.forEach(([,step]) => state[step] = undefined)
+          render()
+        }
+      }, 'Build another one')
+    ])
+  ])
+}
+
+render()
+
+document.body.appendChild(main)
+
+</script>
+</body>
+</html>
