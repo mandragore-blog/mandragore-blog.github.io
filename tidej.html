@@ -10,93 +10,97 @@ import { create, prepare } from './h.js'
 const addIndex = (el, index) => ({ index: Number(index), ...el })
 const base = [
   { name: 'Pain',
-    note: 'Preferer le pain bio et au levain, blanc ou demis-complet et fabriquer avec au maximum 2 farines. Pas de pain complexes (multi-cereales, fruits, etc). Un pain bien lever sera plus digeste'
+    note: 'Préférer le pain bio et au levain, blanc ou demi-complet et fabriqué avec au maximum 2 farines. Pas de pains complexes (multi-céréales, fruits, etc). Un pain bien levé sera plus digeste'
   },
-  { name: 'Tartines cracquantes',
-    note: 'Eviter celle qui contiennent 3 cereales ou plus'
+  { name: 'Tartines craquantes',
+    note: 'Eviter celles qui contiennent plus de 2 céréales différentes.'
   },
   { name: 'Galettes de riz' },
-  { name: 'Galettes de mais' },
+  { name: 'Galettes de maïs' },
   { name: 'Biscottes',
-    note: 'Eviter celle qui contiennent 3 cereales ou plus'
+    note: 'Eviter celles qui contiennent 3 céréales ou plus, les choisir bio pour éviter la présence de pesticides'
   },
   { name: 'Bananes',
-    note: '1 a 3 selon appetit et taille du fruit, a consomer crue ou cuites'
+    note: '1 à 3 selon appétit et taille des fruits, à consommer crues ou cuites'
   },
-  { name: 'Cereales instantane',
-    note: 'Trouvable au rayon bebe des magasin bio ou grandes surfaces, sale ou sucre. 1 ou 2 cereales max'
+  { name: 'Céréales instantanées',
+    note: 'Trouvables au rayon bébé des magasins bio ou grandes grandes surfaces, à consommer salé ou sucré. Ne pas mélanger plus de deux céréales'
   },
-  { name: 'Flocons d\'avoine ou autre cereales',
-    note: 'Faire cuire au moins 10 minutes et pas de melanges de cereales'
+  { name: 'Flocons d\'avoine ou autre céréale',
+    note: 'Faire cuire au moins 10 minutes, à l\'eau, et éviter les mélanges de céréales'
   },
-  { name: 'Biscuits sec',
-    note: 'Pas trop regulierement et de composition la plus simple possible (type petit beurres)'
+  { name: 'Crêpes de sarrazin',
+    note: '1 à 2 selon l\'appétit, à réchauffer à la poêle quelques minutes',
+  },
+  { name: 'Biscuits secs',
+    note: 'Occasionnellement et de composition la plus simple possible (type petits-beurres)'
   },
   { name: 'Viennoiseries',
-    note: 'De maniere occasionelle, preferablement: brioches, croissant et pain au chocolat car plus simple de composition et donc plus digeste'
+    note: 'Très occasionnellement, et de préférence brioche, croissant et pain au chocolat, car plus simples de composition et donc plus digestes. Choisir des viennoiseries artisanales, au beurre et de qualité'
   }
 ].map(addIndex)
 
 const complement = [
   { name: 'Oeuf',
     type: [ 'protein' ],
-    note: 'Important de le prendre Bio pour eviter la presence d\'hormones, anti-biotiques, pesticides, etc. Possible de completer avec du beurre (ou huile) si on en prend peu'
+    note: 'Il est mportant de les choisir bio, pour éviter la présence d\'hormones, antibiotiques, pesticides, etc. Possible de compléter avec du beurre (ou huile) si vous n\'en prenez qu\'un'
   },
   { name: 'Beurre',
     type: [ 'fat' ],
-    note: 'Important de le prendre Bio car les pesticides et medicament donnes aux animaux ce concentre dans les matieres grasses du lait'
+    note: 'Il est important de le choisir bio car les pesticides et médicaments donnés aux animaux se concentrent dans les matières grasses du lait'
   },
   { name: 'Huiles',
     type: [ 'fat' ],
-    note: 'Imperativement bio et de premiere pression a froid, une a 2 cuielleres a soupe. A noter que l\'huile de coco ce tartine comme du beurre'
+    note: 'Impérativement bio et de première pression à froid, une à 2 cuillères à soupe. A noter que l\'huile de coco se tartine comme du beurre (sauf au-dessus de 20°C car elle fond)'
   },
-  { name: 'Oleagineux',
+  { name: 'Oléagineux',
     type: [ 'fat', 'protein' ],
-    note: 'Il est grandement preferable de les faire tremper amandes et noisettes une 10aine d\'heures dans de l\'eau a temperature ambiante et d\'en oter la peau'
+    note: 'Il est préférable de faire tremper amandes et noisettes je 6 à 12 heures dans de l\'eau à température ambiante et d\'en ôter la peau avant consommation. Il est possible de mélanger les oléagineux entre eux'
   },
-  { name: 'Puree d\'Oleagineux',
+  { name: 'Purée d\'oléagineux',
     type: [ 'fat', 'protein' ],
-    note: 'Avec moderation car tres riche et un peu lourd a digerer (15 a 30gr)'
+    note: 'Avec modération car très riches et un peu lourdes a digérer (15 a 30gr)'
   },
-  { name: 'Avocats', type: [ 'fat' ] },
+  { name: 'Avocat', type: [ 'fat' ] },
   { name: 'Viande',
     type: [ 'fat', 'protein' ],
-    note: 'Si il s\'agit de charcuterie veiller a ce qu\'elles ne contiennent pas d\'aditifs (notament nitrites). Preferablement bio ou eviter la viande industrielle'
+    note: 'S\'il s\'agit de charcuterie veiller à ce qu\'elle ne contienne pas d\'additifs (notamment nitrites). Préférablement bio ou éviter la viande industrielle'
   },
   { name: 'Poisson',
     type: [ 'fat', 'protein' ],
-    note: 'De peche ou eventuellement elevage bio. Eviter les conserves'
+    note: 'De pêche ou éventuellement élevage bio. Eviter les conserves en boîtes métalliques'
   },
 ].map(addIndex)
 
 const drinks = [
   { name: 'Eau',
-    note: 'Chaude ou a temperature ambiante, eviter l\'eau glacee'
+    note: 'Chaude ou à température ambiante, éviter l\'eau glacée, surtout pour les personnes faibles, fatiguées ou frileuses'
   },
-  { name: 'Cafe' },
-  { name: 'The' },
+  { name: 'Café' },
+  { name: 'Thé' },
   { name: 'Infusions' },
   { name: 'Malt' },
-  { name: 'Chicore',
-    note: 'A l\'eau ou lait vegetal, sucre ou non'
+  { name: 'Chicorée',
+    note: 'A l\'eau ou lait végétal, sucré ou non'
   },
-  { name: 'Succedane de cafe' },
+  { name: 'Succédané de café (Caro, Bamboo, Yannoh...)' },
   { name: 'Caroube',
-    note: 'A l\'eau ou lait vegetal, sucre ou non'
+    note: 'A l\'eau ou lait végétal, sucrée ou non'
   },
   { name: 'Eau de coco' },
-  { name: 'Cacao legers',
-    note: 'De composition simple (sucre et cacao) preparer avec un lait vegetal. Si vous tennez a vous faire un cacao plus riche, reduire et simplifier la portion de glucide et l\'accompagnement'
+  { name: 'Cacao légers',
+    note: 'De composition simple (sucre et cacao), préparé avec un lait végétal. Si vous tenez a vous faire un cacao plus consistant (avec un chocolat à pâtisser, un lait végétal plus riche, etc), réduire ou supprimer la portion de glucides et alléger l\'accompagnement'
   },
 ].map(addIndex)
 
 const misc = [
-  'Pour les boissons avec du lait, ne pas utiliser de lait animal ou de soja car indigeste et nuisible a la sante',
-  'Il est benefique de rajouter quelques epices et aromates (canelles, gingembre, caradamone, herbe aromatiques, etc...)',
-  'Eviter les fruits, surtout cru, qu\'ils soient entiers ou en jus, sauf melon ou pasteque en saison, seul ou avec un peu d\'oleagineux',
-  'Ne pas prendre de miel, ou le prendre seul ou avec une boissons (sauf celles au lait). Idem pour les fruits sec (dates, figues, abricots et pruneau) et eviter de les melanger',
-  'Preferer les cereales bio, pour eviter la presence de pesticides et d\'engrais',
-  'Les cereales sont plus digestes blanches ou demis-complettes et sale plutot que sucre',
+  'Pour les boissons avec du lait, ne pas utiliser de lait animal ou de soja car indigestes et nuisible à la santé',
+  'Il est bénéfique d\'ajouter quelques épices et aromates (cannelle, gingembre, cardamome, herbes aromatiques, etc...)',
+  'Eviter les fruits, surtout crus, qu\'ils soient entiers ou en jus, sauf melon ou pastèque en saison (car ils ne sont pas acides), seuls ou avec un peu d\'oléagineux',
+  'Le miel doit être consommé SEUL exclusivement, uniquement accompagné d\'une boisson à l\'eau (infusion, café, thé, chicorée, caroube, succédané, etc SANS LAIT). 
+  'Idem pour les fruits secs (dattes, figues, abricots et pruneaux) et éviter de les mélanger entre eux',
+  'Préférer les céréales bio, pour éviter la présence de pesticides et d\'engrais',
+  'Les céréales sont plus digestes blanches ou demi-complètes et salées plutôt que sucrées. Mais il est possible de les choisir complètes si vous avez une très bonne digestion ',
 ]
 
 const data = {
